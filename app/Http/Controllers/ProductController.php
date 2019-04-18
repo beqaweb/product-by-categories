@@ -63,8 +63,8 @@ class ProductController extends Controller
         );
         $product->setAttribute('user_id', auth()->user()->id);
 
-        if ($request->has('file')) {
-            $path = $request->file('image')->store(
+        if ($request->has('image')) {
+            $path = $request->file('image')->storePublicly(
                 'images', 's3'
             );
             $new_image = Image::create(['filepath' => $path]);
@@ -110,8 +110,8 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             $image = Image::find($product->image_id);
-            Storage::driver('s3')->delete($image->filepath);
-            $path = $request->file('image')->store(
+            Storage::disk('s3')->delete($image->filepath);
+            $path = $request->file('image')->storePublicly(
                 'images', 's3'
             );
             $new_image = Image::create(['filepath' => $path]);
@@ -151,7 +151,9 @@ class ProductController extends Controller
     {
         try {
             $product->load('image');
-            Storage::disk('s3')->delete($product->image->filepath);
+            if ($product->image) {
+                Storage::disk('s3')->delete($product->image->filepath);
+            }
             $product->delete();
         } catch (\Exception $exception) {
         }

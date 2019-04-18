@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @if(auth()->check())
+                @if(auth()->check() && (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin-manager')))
                     <div>
                         <a href="{{route('newProductForm')}}">
                             <button class="btn btn-primary">Add New</button>
@@ -15,20 +15,18 @@
                 @if(count($products) > 0)
                     <ul class="list-group mt-3">
                         @foreach($products as $product)
-                            <li class="list-group-item row" style="display: flex;">
-                                <span class="col-1">
-                                    <img style="width:50px;height:50px;object-fit:contain;" class="col-2"
-                                         src="{{$product->image->url}}" alt=""/>
-                                </span>
-                                <div class="col-8">
-                                    <h5 class="h5">{{$product->name}}
+                            <li class="card mb-3" style="width: 20rem;">
+                                <img src="{{$product->image ? $product->image->url : ''}}" class="card-img-top" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$product->name}}
                                         <small>(from {{$product->category->name}})</small>
                                     </h5>
+                                    @if(auth()->check() && (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin-manager')))
+                                        <a href="{{route('productUpdateForm', $product)}}" class="card-link">Edit</a>
+                                        <a href="{{route('productDeleteConfirm', $product)}}"
+                                           class="card-link">Delete</a>
+                                    @endif
                                 </div>
-                                <span>
-                                    <a class="mr-2" href="{{route('productUpdateForm', $product)}}">Edit</a>
-                                    <a class="mr-2" href="{{route('productDeleteConfirm', $product)}}">Delete</a>
-                                </span>
                             </li>
                         @endforeach
                     </ul>

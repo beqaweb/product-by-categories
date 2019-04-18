@@ -2,9 +2,11 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -48,5 +50,10 @@ class User extends Authenticatable
     public function products()
     {
         $this->hasMany(Product::class);
+    }
+
+    public function scopeDoesNotHaveRole(Builder $query, Role $role)
+    {
+        return $query->roles->contains($role);
     }
 }

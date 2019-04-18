@@ -11,8 +11,8 @@
 
                     <div class="row mt-4 mb-4">
                         <div class="col-6">
-                            <h5 class="h5 mb-1">Users to remove from the category:</h5>
-                            <ul class="list-group mt-3" id="user-list">
+                            <h5 class="h5 mb-2">Users to remove from the category:</h5>
+                            <ul class="list-group" id="user-list">
                                 @foreach($category->permittedUsers as $user)
                                     <li class="list-group-item" data-user-id="{{$user->id}}">
                                         <span class="col-12">{{$user->name}}</span>
@@ -24,9 +24,12 @@
                                     </li>
                                 @endforeach
                             </ul>
+                            @if(!$category->permittedUsers || count($category->permittedUsers) === 0)
+                                <h5 class="h5 mt-3 text-muted">No users here yet</h5>
+                            @endif
                         </div>
                         <div class="col-6">
-                            <h5 class="h5 mb-1">Users to assign the category to:</h5>
+                            <h5 class="h5 mb-2">Users to assign the category to:</h5>
                             <ul class="list-group" id="add-list">
                                 @foreach($users as $user)
                                     <li class="list-group-item" data-user-id="{{$user->id}}">
@@ -39,6 +42,9 @@
                                     </li>
                                 @endforeach
                             </ul>
+                            @if(!$users || count($users) === 0)
+                                <h5 class="h5 mt-3 text-muted">No users here yet</h5>
+                            @endif
                         </div>
                     </div>
 

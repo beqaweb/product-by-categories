@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('admin/products/new', 'ProductController@new')->name('newProductForm');
-    Route::get('products/forbidden', 'ProductController@forbidden')->name('productForbidden');
+    Route::get('admin/products/forbidden', 'ProductController@forbidden')->name('productForbidden');
     Route::middleware(['can-manage-product'])->group(function () {
         Route::post('admin/products', 'ProductController@store')->name('newProduct');
         Route::get('admin/products/{product}/update', 'ProductController@updateForm')->name('productUpdateForm');

@@ -98,11 +98,12 @@ class CategoryController extends Controller
     public function permissions(Category $category)
     {
         $category->load('permittedUsers');
-        $userIdsExceptForPermittedUsers = array_map(function ($user) {
+        $idsOfTheAlreadyPermittedUsers = array_map(function ($user) {
             return $user['id'];
         }, $category->permittedUsers->toArray());
-        $users = User::query()
-            ->whereNotIn('id', $userIdsExceptForPermittedUsers)
+
+        $users = User::role('admin-manager')
+            ->whereNotIn('id', $idsOfTheAlreadyPermittedUsers)
             ->get();
         return view('admin.categories.permissions', compact('category', 'users'));
     }

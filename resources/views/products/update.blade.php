@@ -22,10 +22,12 @@
                             @endif
                         </div>
                     </div>
-                    <img style="width: 150px; height: 150px;object-fit: contain;" src="{{$product->image->url}}"
-                         alt=""/>
+                    <div class="d-flex justify-content-center">
+                        <img style="width: 150px; height: 150px;object-fit: contain;" src="{{$product->image->url}}"
+                             alt=""/>
+                    </div>
                     <div class="form-group row">
-                        <label for="image" class="col-md-4 col-form-label text-md-right">Image</label>
+                        <label for="image" class="col-md-4 col-form-label text-md-right">New image</label>
 
                         <div class="col-md-6">
                             <input id="image" type="file"
@@ -36,6 +38,7 @@
                                     <strong>{{ $errors->first('image') }}</strong>
                                 </span>
                             @endif
+                            <small>the old one will be delete and replaced</small>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -52,7 +55,7 @@
 
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-4">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </div>
                 </form>

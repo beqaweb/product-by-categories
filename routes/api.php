@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// API for admin manager
+Route::middleware(['auth:api', 'role:admin-manager'])->group(function () {
+
 });
