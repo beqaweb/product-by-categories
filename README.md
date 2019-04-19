@@ -2,10 +2,8 @@
 
 Please use docker-compose to install/deploy the app.
 
-First of all, create a `app-data/products-by-categories` directory in your user home directory. Then add file named `env_file` in the that directory.
-
-Being in the project directory, you can use:
-`mkdir -p ~/app-data/products-by-categories && cp .env.example ~/app-data/products-by-categories/`. (FYI, I'm not sure this command are available on Windows OS)
+First of all, create `app-data/products-by-categories` directory in your home directory. Then add file named `env_file` in the directory. Being in the project directory, you can use one-command solution:
+`mkdir -p ~/app-data/products-by-categories && cp .env.example ~/app-data/products-by-categories/`. (FYI, I'm not sure the commands will work on Windows OS)
 
 Then open terminal, cd to the project directory and fire the following commands one after another:
 1) `docker-compose up -d`
