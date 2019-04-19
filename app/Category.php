@@ -4,8 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema()
+ */
 class Category extends Model
 {
+    /**
+     * @OA\Property(property="name", type="string")
+     */
+
     protected $fillable = [
         'name'
     ];

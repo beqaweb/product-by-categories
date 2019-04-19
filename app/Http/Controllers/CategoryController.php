@@ -22,6 +22,50 @@ class CategoryController extends Controller
     }
 
     /**
+     * List categories
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
+     * @OA\Get(
+     *     path="/api/categories",
+     *     operationId="listCategories",
+     *     tags={"Categories"},
+     *     summary="List Categories",
+     *     description="Returns an array of categories",
+     *     @OA\Parameter(
+     *         name="page",
+     *         description="Current page number in the pagination (starts at 1)",
+     *         required=false,
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully got categories",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 ref="#/components/schemas/Category"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function indexApi()
+    {
+        if (auth()->user()->can('manage product')) {
+            $categories = Category::all();
+        } else {
+            $categories = User::query()->find(auth()->user()->id)->categories()->get();
+        }
+        return Response(
+            $categories,
+            200
+        );
+    }
+
+    /**
      * Show form for adding a new category
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

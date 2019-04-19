@@ -4,8 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema()
+ */
 class Product extends Model
 {
+    /**
+     * @OA\Property(property="name", type="string")
+     */
+
     protected $fillable = [
         'name', 'image_id', 'category_id', 'user_id'
     ];

@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // API for admin manager
-Route::middleware(['auth:api', 'role:admin-manager'])->group(function () {
 
+Route::get('categories', 'CategoryController@indexApi');
+Route::get('products', 'ProductController@indexApi');
+
+Route::middleware(['auth:api', 'can-manage-product'])->group(function () {
+    Route::post('products', 'ProductController@storeApi');
+    Route::match(['patch', 'put'], 'products/{product}', 'ProductController@updateApi');
+    Route::delete('products/{product}', 'ProductController@deleteApi');
 });
