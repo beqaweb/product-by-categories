@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: products-by-categories-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: products-by-categories
+    volumes:
+      - ~/app-data/products-by-categories/mysql:/var/lib/mysql
+
+  laravel:
+    depends_on:
+      - products-by-categories-db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: products-by-categories-laravel
+    container_name: products-by-categories-laravel
+    restart: always
+    env_file:
+      - ~/app-data/products-by-categories/env_file
+    volumes:
+      - .:/var/www/html
+
+  nginx:
+    image: nginx:alpine
+    container_name: products-by-categories-server
+    restart: always
+    ports:
+      - 5555:80
+    depends_on:
+      - products-by-categories-laravel
+    volumes:
+      - .:/var/www/html
+      - ./docker-build/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - products-by-categories-laravel
+
+volumes:
+  .:
