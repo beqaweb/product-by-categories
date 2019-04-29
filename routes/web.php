@@ -22,8 +22,14 @@ Route::redirect('/home', 'products');
 Route::get('products', 'ProductController@index')->name('productList');
 
 Route::middleware('auth')->group(function () {
+    Route::redirect('admin', 'admin/categories');
+
+    Route::middleware('permission:assign roles')->group(function () {
+        Route::get('admin/roles', 'UserController@indexRoles')->name('roleList');
+        Route::match(['patch', 'put'], 'admin/roles', 'UserController@updateRoles')->name('roleUpdate');
+    });
+
     Route::middleware('permission:manage category')->group(function () {
-        Route::redirect('admin', 'admin/categories');
         Route::get('admin/categories', 'CategoryController@index')->name('categoryList');
         Route::get('admin/categories/new', 'CategoryController@new')->name('newCategoryForm');
         Route::post('admin/categories', 'CategoryController@store')->name('newCategory');

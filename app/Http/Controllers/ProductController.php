@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\CategoryFieldValue;
 use App\Image;
 use App\Product;
 use App\User;
@@ -252,7 +253,29 @@ class ProductController extends Controller
     public function updateForm(Product $product)
     {
         $categories = Category::all();
-        return view('products.update', compact('product', 'categories'));
+
+        $custom_fields = $product->customFields()->get();
+        $custom_field_values = $product->customFieldValues()
+            ->whereIn('category_field_id', array_map(function ($field) {
+                return $field['id'];
+            }, $custom_fields->toArray()))
+            ->get();
+
+        $custom_field_with_values = [];
+        foreach ($custom_fields as $field) {
+            global $field_id;
+            $field_id = $field->id;
+            $found_values = array_filter($custom_field_values->toArray(), function ($field_value) {
+                global $field_id;
+                return $field_value['category_field_id'] === $field_id;
+            });
+            $custom_field_with_values[$field['id']] = [
+                $field,
+                (count($found_values) > 0) ? array_pop($found_values) : null
+            ];
+        }
+
+        return view('products.update', compact('product', 'categories', 'custom_field_with_values'));
     }
 
     /**
@@ -288,7 +311,22 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('productList');
+        if ($request->has('customFieldValue') && count($request['customFieldValue']) > 0) {
+            foreach ($request['customFieldValue'] as $field_id => $value_arr) {
+                if ($value_arr['valueId']) {
+                    $field_value = CategoryFieldValue::query()->find($value_arr['valueId']);
+                } else {
+                    $field_value = $product->customFieldValues()->create([
+                        'category_field_id' => $field_id
+                    ]);
+                }
+                $field_value->update([
+                    'value' => (string)$value_arr['value']
+                ]);
+            }
+        }
+
+        return redirect()->route('productUpdateForm', compact('product'));
     }
 
     /**

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @if(auth()->check() && (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin-manager')))
+                @if(auth()->check() && (auth()->user()->hasRole('Super admin') || auth()->user()->hasRole('Admin manager')))
                     <div>
                         <a href="{{route('newProductForm')}}">
                             <button class="btn btn-primary">Add New</button>
@@ -21,7 +21,7 @@
                                     <h5 class="card-title">{{$product->name}}
                                         <small>(from {{$product->category->name}})</small>
                                     </h5>
-                                    @if(auth()->check() && (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin-manager')))
+                                    @if(auth()->check() && (auth()->user()->hasRole('Super admin') || auth()->user()->hasRole('Admin manager')))
                                         <a href="{{route('productUpdateForm', $product)}}" class="card-link">Edit</a>
                                         <a href="{{route('productDeleteConfirm', $product)}}"
                                            class="card-link">Delete</a>

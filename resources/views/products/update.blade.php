@@ -12,7 +12,7 @@
                         <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
                         <div class="col-md-6">
-                            <input id="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                            <input id="name" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}"
                                    name="name" value="{{ $product->name }}" required>
 
                             @if ($errors->has('name'))
@@ -31,7 +31,7 @@
 
                         <div class="col-md-6">
                             <input id="image" type="file"
-                                   class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}" name="image">
+                                   class="form-control {{ $errors->has('image') ? ' is-invalid' : '' }}" name="image">
 
                             @if ($errors->has('image'))
                                 <span class="invalid-feedback" role="alert">
@@ -52,6 +52,41 @@
                             </select>
                         </div>
                     </div>
+
+                    @if(count($custom_field_with_values) > 0)
+                        <div class="d-flex">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6">
+                                <h5 class="h5 d-block mt-4">Custom fields
+                                    <small>(those fields come from the category)</small>
+                                </h5>
+                            </div>
+                        </div>
+                        @foreach($custom_field_with_values as $field_tuple) @if($field_tuple)
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right"
+                                       for="cf-{{$field_tuple[0]->id}}">{{$field_tuple[0]->name}}</label>
+
+                                <div class="col-md-6">
+                                    <input type="hidden"
+                                           name="customFieldValue[{{$field_tuple[0]->id}}][valueId]"
+                                           value="{{$field_tuple[1] ? $field_tuple[1]['id'] : ''}}"
+                                    />
+
+                                    <input id="cf-{{$field_tuple[0]->id}}"
+                                           name="customFieldValue[{{$field_tuple[0]->id}}][value]"
+                                           class="form-control {{ $errors->has("customFieldValue[{$field_tuple[0]->id}][value]") ? ' is-invalid' : '' }}"
+                                           value="{{$field_tuple[1] ? $field_tuple[1]['value'] : ''}}"/>
+
+                                    @if ($errors->has("customFieldValue[{$field_tuple[0]->id}][value]"))
+                                        <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first("customFieldValue[{$field_tuple[0]->id}][value]") }}</strong>
+                                            </span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif @endforeach
+                    @endif
 
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-4">

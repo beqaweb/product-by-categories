@@ -9,6 +9,8 @@ Then open terminal, cd to the project directory and fire the following commands 
 1) `docker-compose up -d`
 2) `docker exec products-by-categories-laravel ./docker-build/laravel-optimize.sh`
 
-# Other info
+# Usage
 
-By default, I've set the port to `5555`, so after docker compose the app will be available at http://localhost:5555. You can change the port in `docker-compose.yml` file (line 33).
+By default, the port is set to `5555`, so after building the app, it will be available at `http://localhost:5555`. You can change the port in `docker-compose.yml` file (line 33).
+
+Also, you can access the REST API documentation at `http://localhost:5555/api/documentation`.

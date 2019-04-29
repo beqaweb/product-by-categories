@@ -26,4 +26,9 @@ class Category extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function customFields()
+    {
+        return $this->hasMany(CategoryField::class);
+    }
 }
