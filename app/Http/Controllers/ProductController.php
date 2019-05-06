@@ -321,14 +321,17 @@ class ProductController extends Controller
             foreach ($request['customFieldValue'] as $field_id => $value_arr) {
                 if ($value_arr['valueId']) {
                     $field_value = CategoryFieldValue::query()->find($value_arr['valueId']);
+                    if ($field_value) {
+                        $field_value->update([
+                            'value' => (string)$value_arr['value']
+                        ]);
+                    }
                 } else {
-                    $field_value = $product->customFieldValues()->create([
-                        'category_field_id' => $field_id
+                    $product->customFieldValues()->create([
+                        'category_field_id' => $field_id,
+                        'value' => (string)$value_arr['value']
                     ]);
                 }
-                $field_value->update([
-                    'value' => (string)$value_arr['value']
-                ]);
             }
         }
 
