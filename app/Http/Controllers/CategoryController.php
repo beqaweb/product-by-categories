@@ -146,7 +146,7 @@ class CategoryController extends Controller
             return $user['id'];
         }, $category->permittedUsers->toArray());
 
-        $users = User::role('admin-manager')
+        $users = User::role('Admin manager')
             ->whereNotIn('id', $idsOfTheAlreadyPermittedUsers)
             ->get();
         return view('admin.categories.permissions', compact('category', 'users'));

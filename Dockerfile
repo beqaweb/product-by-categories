@@ -1,5 +1,4 @@
 FROM php:7.3-fpm
-
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libpq-dev \
@@ -31,7 +30,5 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable \
     imagick \
     mcrypt
-
 COPY --from=composer:1.7.3 /usr/bin/composer /usr/bin/composer
-
 ENTRYPOINT ["./docker-build/laravel-init.sh"]

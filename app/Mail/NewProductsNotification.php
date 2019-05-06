@@ -34,7 +34,7 @@ class NewProductsNotification extends Mailable
     {
         $super_admin_emails = array_map(function ($user) {
             return $user['email'];
-        }, User::role('super-admin')->get()->toArray());
+        }, User::role('Super admin')->get()->toArray());
 
         return $this->to($super_admin_emails)
             ->view('mails.new-products-notification', [

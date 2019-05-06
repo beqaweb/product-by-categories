@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @if(!$categories || count($categories) === 0)
-                    @if(auth()->user()->hasRole('super-admin'))
+                    @if(auth()->user()->hasRole('Super admin'))
                         <h3 class="h3">Please add at least one category.</h3>
                     @else
                         <h3 class="h3">You are not allowed to add any products for now, please ask Super Admin to assign

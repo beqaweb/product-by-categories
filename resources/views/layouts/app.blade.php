@@ -36,7 +36,7 @@
                         <li class="nav-item">
                             <a class="nav-link {{Route::getFacadeRoot()->current()->uri() === 'products' ? 'active' : ''}}" href="{{route('productList')}}">Products</a>
                         </li>
-                        @if(auth()->user() && auth()->user()->hasRole('super-admin'))
+                        @if(auth()->user() && auth()->user()->hasRole('Super admin'))
                         <li class="nav-item">
                             <a class="nav-link {{Route::getFacadeRoot()->current()->uri() === 'admin/categories' ? 'active' : ''}}" href="{{route('categoryList')}}">Categories</a>
                         </li>

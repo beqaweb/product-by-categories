@@ -13,15 +13,13 @@ services:
 
   laravel:
     depends_on:
-      - products-by-categories-db
+      - mysql
     build:
       context: .
       dockerfile: Dockerfile
     image: products-by-categories-laravel
     container_name: products-by-categories-laravel
     restart: always
-    env_file:
-      - ~/app-data/products-by-categories/env_file
     volumes:
       - .:/var/www/html
 
@@ -32,12 +30,12 @@ services:
     ports:
       - 5555:80
     depends_on:
-      - products-by-categories-laravel
+      - laravel
     volumes:
       - .:/var/www/html
       - ./docker-build/nginx.conf:/etc/nginx/conf.d/default.conf
     links:
-      - products-by-categories-laravel
+      - laravel
 
 volumes:
   .:
