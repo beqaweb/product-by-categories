@@ -14,12 +14,12 @@
                     <ul class="list-group mt-3">
                         @foreach($categories as $category)
                             <li class="list-group-item row" style="display:flex;">
-                                <span class="col-9">{{$category->name}}</span>
-                                <span>
-                            <a class="mr-2" href="{{route('categoryUpdateForm', $category)}}">Edit</a>
-                            <a class="mr-2" href="{{route('categoryDeleteConfirm', $category)}}">Delete</a>
-                            <a href="{{route('categoryPermissions', $category)}}">Permissions</a>
-                        </span>
+                                <span class="col-8">{{$category->name}}</span>
+                                <span class="col-4">
+                                    <a class="mr-2" href="{{route('categoryPermissions', $category)}}">Permissions</a>
+                                    <a class="mr-2" href="{{route('categoryUpdateForm', $category)}}">Edit</a>
+                                    <a href="{{route('categoryDeleteConfirm', $category)}}">Delete</a>
+                                </span>
                             </li>
                         @endforeach
                     </ul>

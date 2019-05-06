@@ -24,11 +24,28 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->with('customFields');
     }
 
     public function creator()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function customFields()
+    {
+        return $this->hasManyThrough(
+            CategoryField::class,
+            Category::class,
+            'id',
+            'category_id',
+            'category_id',
+            'id'
+        );
+    }
+
+    public function customFieldValues()
+    {
+        return $this->morphMany(CategoryFieldValue::class, 'valuable');
     }
 }

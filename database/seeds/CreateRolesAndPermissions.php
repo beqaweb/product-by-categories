@@ -18,6 +18,7 @@ class CreateRolesAndPermissions extends Seeder
         // create permissions
         Permission::findOrCreate('manage category');
         Permission::findOrCreate('manage product');
+        Permission::findOrCreate('assign roles');
 
         // create roles
         $super_admin = Role::findOrCreate('Super admin');
@@ -26,7 +27,8 @@ class CreateRolesAndPermissions extends Seeder
 
         $super_admin->syncPermissions([
             'manage category',
-            'manage product'
+            'manage product',
+            'assign roles'
         ]);
     }
 }

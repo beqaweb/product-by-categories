@@ -40,9 +40,9 @@
                         <li class="nav-item">
                             <a class="nav-link {{Route::getFacadeRoot()->current()->uri() === 'admin/categories' ? 'active' : ''}}" href="{{route('categoryList')}}">Categories</a>
                         </li>
-                        {{--<li class="nav-item">--}}
-                            {{--<a class="nav-link {{Route::getFacadeRoot()->current()->uri() === 'admin/categories' ? 'active' : ''}}" href="{{route('roles')}}">Roles</a>--}}
-                        {{--</li>--}}
+                        <li class="nav-item">
+                            <a class="nav-link {{Route::getFacadeRoot()->current()->uri() === 'admin/roles' ? 'active' : ''}}" href="{{route('roleList')}}">Roles</a>
+                        </li>
                         @endif
                     </ul>
 

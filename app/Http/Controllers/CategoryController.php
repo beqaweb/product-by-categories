@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\CategoryField;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -106,6 +107,7 @@ class CategoryController extends Controller
      */
     public function updateForm(Category $category)
     {
+        $category->load('customFields');
         return view('admin.categories.update', compact('category'));
     }
 
@@ -126,12 +128,41 @@ class CategoryController extends Controller
             return view('admin.categories.update', $errors);
         }
 
+        if ($request->has('customFields') && count($request['customFields'])) {
+            foreach ($request['customFields'] as $fieldId => $fieldData) {
+                if ($fieldData['name']) {
+                    CategoryField::query()->find($fieldId)->update($fieldData);
+                }
+            }
+        }
+
+        if ($request->has('newFields') && count($request['newFields'])) {
+            foreach ($request['newFields'] as $name) {
+                if ($name) {
+                    $newField = new CategoryField([
+                        'name' => $name,
+                        'category_id' => $category->getAttribute('id')
+                    ]);
+                    $newField->save();
+                }
+            }
+        }
+
+        if ($request->has('fieldsToDelete') && count($request['fieldsToDelete'])) {
+            foreach ($request['fieldsToDelete'] as $id) {
+                try {
+                    CategoryField::query()->find($id)->delete();
+                } catch (\Exception $exception) {
+                }
+            }
+        }
+
         $category->fill(
             $request->only($category->getFillable())
         );
         $category->save();
 
-        return redirect()->route('categoryList');
+        return redirect()->route('categoryUpdateForm', compact('category'));
     }
 
     /**
