@@ -10,6 +10,11 @@ class CategoryFieldValue extends Model
         'value', 'category_field_id', 'valuable_id', 'valuable_type'
     ];
 
+    public function categoryField()
+    {
+        return $this->belongsTo(CategoryField::class);
+    }
+
     public function valuable()
     {
         return $this->morphTo();

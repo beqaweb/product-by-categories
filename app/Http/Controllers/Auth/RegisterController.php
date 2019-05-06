@@ -71,6 +71,8 @@ class RegisterController extends Controller
         ]);
         if ($usersTableWasEmpty) {
             $user->assignRole('Super admin');
+        } else {
+            $user->assignRole('User');
         }
         return $user;
     }

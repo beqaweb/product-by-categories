@@ -21,6 +21,14 @@
                                     <h5 class="card-title">{{$product->name}}
                                         <small>(from {{$product->category->name}})</small>
                                     </h5>
+                                    <div>
+                                        @foreach($product->customFieldValues as $field_value)
+                                        <p>
+                                            <strong>{{$field_value->categoryField->name}}:</strong>
+                                            <span>{{$field_value->value}}</span>
+                                        </p>
+                                        @endforeach
+                                    </div>
                                     @if(auth()->check() && (auth()->user()->hasRole('Super admin') || auth()->user()->hasRole('Admin manager')))
                                         <a href="{{route('productUpdateForm', $product)}}" class="card-link">Edit</a>
                                         <a href="{{route('productDeleteConfirm', $product)}}"

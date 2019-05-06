@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::query()
-            ->with('image', 'category', 'creator')
+            ->with('image', 'category', 'creator', 'customFieldValues')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('products.index', compact('products'));
@@ -293,6 +293,12 @@ class ProductController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
             return view('admin.products.update', $errors);
+        }
+
+        // delete all custom field values for this product if
+        // category is going to be changed
+        if ($product->category_id !== $request['category_id']) {
+            $product->customFieldValues()->delete();
         }
 
         $product->fill(

@@ -5,7 +5,7 @@ Please use docker-compose to install/deploy the app.
 Right after cloning the repo, first of all, create `~/app-data/products-by-categories` directory. You can use one-command solution:
 `mkdir -p ~/app-data/products-by-categories`.
 
-Then open terminal, `cd` to the project directory and fire the following commands one after another:
+Then open terminal, `cd` to the project directory (if you are not there) and fire the following commands one after another:
 1) `docker-compose up -d`
 2) `docker exec products-by-categories-laravel ./docker-build/laravel-optimize.sh`
 

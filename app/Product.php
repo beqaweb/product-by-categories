@@ -46,6 +46,7 @@ class Product extends Model
 
     public function customFieldValues()
     {
-        return $this->morphMany(CategoryFieldValue::class, 'valuable');
+        return $this->morphMany(CategoryFieldValue::class, 'valuable')
+            ->with('categoryField');
     }
 }
